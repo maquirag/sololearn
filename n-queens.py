@@ -27,6 +27,7 @@ def queen_solver(N):
         """Try to place a queen in column `col`"""
         # If all columns are taken, then this is a valid solution
         if col >= N:
+            # Solution stringified, because the board is mutable and will change
             solution.append('\n'.join(' '.join(str(c) for c in r) for r in board))
             return True
         # Try placing a queen in each row
@@ -55,7 +56,7 @@ for N in range(1, 10):
     solutions = queen_solver(N)
     print(f'{len(solutions)} solutions found for N = {N}\n')
     # Uncomment the following print to see detailed solutions!
-    #print(*solutions, sep='\n\n', end='\n\n')
+    print(*solutions, sep='\n\n', end='\n\n')
 
 """
 Number of solutions found (offline):
