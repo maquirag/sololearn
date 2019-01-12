@@ -7,6 +7,8 @@ Algorithm is based on the idea from:
 https://www.geeksforgeeks.org/n-queen-problem-using-branch-and-bound/
 """
 
+import time
+
 def queen_solver(N):
     """Place a queen in one column at a time, starting from left.
     If all queens are down, mark solution.
@@ -50,13 +52,14 @@ def queen_solver(N):
     queen_column(0)
     return solution
 
-
+t = time.time()
 # Change the range to get specific N solutions
-for N in range(1, 10):
+for N in range(1, 12):
     solutions = queen_solver(N)
     print(f'{len(solutions)} solutions found for N = {N}\n')
     # Uncomment the following print to see detailed solutions!
     print(*solutions, sep='\n\n', end='\n\n')
+print(f'Time taken: {time.time() - t:.3f} seconds')
 
 """
 Number of solutions found (offline):
