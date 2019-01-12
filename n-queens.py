@@ -8,6 +8,7 @@ https://www.geeksforgeeks.org/n-queen-problem-using-branch-and-bound/
 """
 
 import time
+from random import randint
 
 def queen_solver(N):
     """Place a queen in one column at a time, starting from left.
@@ -16,14 +17,13 @@ def queen_solver(N):
     # Initializing the Board
     solution = []
     board = [[0 for j in range(N)] for i in range(N)]
-    taken_rows = [0 for i in range(N)]
-    taken_slash = [0 for i in range(2 * N + 1)]  # Slash shaped diagonals
-    taken_backs = [0 for i in range(2 * N + 1)]  # Backslash shaped diagonals
-    # taken_slash    taken_backs
-    #    0 1 2 3        3 2 1 0
-    #    1 2 3 4        4 3 2 1
-    #    2 3 4 5        5 4 3 2
-    #    3 4 5 6        6 5 4 3
+    taken_rows, taken_slash, taken_backs = set(), set(), set()
+    # taken_rows  taken_slash  taken_backs
+    #     0           0 1 2 3      3 2 1 0
+    #     1           1 2 3 4      4 3 2 1
+    #     2           2 3 4 5      5 4 3 2
+    #     3           3 4 5 6      6 5 4 3
+    # Taken column is tracked by the calling parameter of the recursion.
 
     def queen_column(col):
         """Try to place a queen in column `col`"""
@@ -31,30 +31,32 @@ def queen_solver(N):
         if col >= N:
             # Solution stringified, because the board is mutable and will change
             solution.append('\n'.join(' '.join(str(c) for c in r) for r in board))
-            return True
+            return
         # Try placing a queen in each row
         for row in range(N):
             # If the position is not taken, then put down a queen, mark taken spots and recurse
-            if not (taken_rows[row] or taken_slash[row + col] or taken_backs[row - col + N - 1]):
+            if row not in taken_rows and \
+                    (row + col) not in taken_slash and \
+                    (row - col + N - 1) not in taken_backs:
                 board[row][col] = 1
-                taken_rows[row] = 1
-                taken_slash[row + col] = 1
-                taken_backs[row - col + N - 1] = 1
+                taken_rows.add(row)
+                taken_slash.add(row + col)
+                taken_backs.add(row - col + N - 1)
                 # Jump to next column
                 queen_column(col + 1)
-                # Remove the queen and the marks for further iterations
+                # When backtracking, remove the queen and the marks
                 board[row][col] = 0
-                taken_rows[row] = 0
-                taken_slash[row + col] = 0
-                taken_backs[row - col + N - 1] = 0
+                taken_rows.remove(row)
+                taken_slash.remove(row + col)
+                taken_backs.remove(row - col + N - 1)
         return
 
-    queen_column(0)
-    return solution
+    queen_column(0)  # Start putting down queens at column 0
+    return solution  # If solutions were found at the end of recursion, they are collected and returned
 
 t = time.time()
 # Change the range to get specific N solutions
-for N in range(1, 12):
+for N in range(4, 5):
     solutions = queen_solver(N)
     print(f'{len(solutions)} solutions found for N = {N}\n')
     # Uncomment the following print to see detailed solutions!
