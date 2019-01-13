@@ -9,6 +9,9 @@ https://www.geeksforgeeks.org/n-queen-problem-using-branch-and-bound/
 
 import time
 from random import randint
+# import sys
+# from codecs import getwriter
+# sys.stdout = getwriter('utf_16')(sys.stdout.buffer, 'strict')
 
 def queen_solver(N):
     """Place a queen in one column at a time, starting from left.
@@ -16,6 +19,8 @@ def queen_solver(N):
     """
     # Initializing the Board
     solution = []
+    Q = '\N{WHITE CHESS QUEEN}'
+    T = '\N{WHITE LARGE SQUARE}' + '\N{BLACK LARGE SQUARE}'
     board, taken_rows, taken_slash, taken_backs = {}, set(), set(), set()
     # Rows and Columns are indexed from 0 to N-1
     # taken_rows  taken_slash  taken_backs
@@ -30,7 +35,10 @@ def queen_solver(N):
         """Try to place a queen in column `col`"""
         # If all columns are taken, adding the valid solution stringified
         if col == N:
-            solution.append('\n' + '\n'.join(' '.join('Q' if board[r] == c else '.' for c in range(N)) for r in range(N)))
+            solution.append('\n' + '\n'.join(
+                ''.join(Q if board[r] == c else T[(r+c) % 2]
+                for c in range(N)) for r in range(N))
+                )
             return
         # Try placing a queen in each row
         for row in range(N):
