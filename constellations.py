@@ -6,6 +6,7 @@ import urllib.request, re, random
 
 url = 'http://en.wikipedia.org/wiki/IAU_designated_constellations'
 with urllib.request.urlopen(url) as file:
+    # TODO: Unicode handling is not completely fine :(
     #html = str(file.read().decode('utf-8'))
     html = str(file.read())
     table = re.findall('<table.*?>(.*?)</table>', html)
