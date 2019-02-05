@@ -1,11 +1,10 @@
 """Array Partitioning Challenge
-Divide the given array of numbers into two subarrays
-such that the absolute difference between their sums
-is the smallest possible.
-
-Possible input: enter numbers separated by spaces, e.g.
+Divide the given array of numbers into two subarrays so that the absolute difference
+between their sums is the smallest possible.
+*** Input: ***
+enter numbers separated by spaces, e.g.
 12 34 67 12 3
-...or leave blank for 3 default tests
+or leave blank for 3 default tests
 """
 def array_part(array):
     """This is a Backtracking algorithm
@@ -38,7 +37,7 @@ def array_part(array):
     idealsum = sum(array) // 2
     part1 = []
     part2 = array[:]
-    while not part1 and idealsum > 0:
+    while not part1:
         part1 = backtrack_part(part1[:], array[:], idealsum)
         # Decrement the ideal sum for the next cycle
         idealsum -= 1
@@ -48,12 +47,12 @@ def array_part(array):
     return [sorted(part1), sorted(part2)]
 
 
-userarray = input("Enter a list of numbers, separated by spaces.\n")
-testarray = [list(map(int, userarray.split()))] if userarray else []
-testarray += [[1,2,9,2], [4,15,20,2,7,5], [20,15,13,12,10]]
-for a in testarray:
-    subarrays = array_part(a)
-    print(f'\nThe full array is: {a}')
-    print(f'The first part sums up to {sum(subarrays[0])}, elements: {subarrays[0]}')
-    print(f'The other part sums up to {sum(subarrays[1])}, elements: {subarrays[1]}')
-    print(f'The difference is {abs(sum(subarrays[0])-sum(subarrays[1]))}')
+user = input("Enter a list of numbers, separated by spaces.\n")
+test = [list(map(int, user.split()))] if user else []
+test += [[1, 2, 9, 2], [4, 15, 20, 2, 7, 5], [20, 15, 13, 12, 10]]
+for a in test:
+    sub = array_part(a)
+    print(f'\nOriginal array: {a}')
+    print(f'Left  sum {sum(sub[0])} = {sub[0]}')
+    print(f'Right sum {sum(sub[1])} = {sub[1]}')
+    print(f'Difference = {abs(sum(sub[0]) - sum(sub[1]))}')
