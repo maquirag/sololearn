@@ -15,7 +15,7 @@ def josephus(circle):
     return josephus(circle[2:] + circle[0:1])
 
 try:
-    soldiers = int(input())
+    soldiers = int(input("Number of Soldiers: "))
     assert soldiers > 1
 except (ValueError, AssertionError) as e:
     soldiers = 10
