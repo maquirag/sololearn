@@ -13,6 +13,7 @@ from random import randint
 # from codecs import getwriter
 # sys.stdout = getwriter('utf_16')(sys.stdout.buffer, 'strict')
 
+
 def queen_solver(N):
     """Place a queen in one column at a time, starting from left.
     If all queens are down, mark solution.
@@ -37,8 +38,8 @@ def queen_solver(N):
         if col == N:
             solution.append('\n' + '\n'.join(
                 ''.join(Q if board[r] == c else T[(r+c) % 2]
-                for c in range(N)) for r in range(N))
-                )
+                        for c in range(N)) for r in range(N))
+            )
             return
         # Try placing a queen in each row
         for row in range(N):
@@ -60,7 +61,9 @@ def queen_solver(N):
         return
 
     queen_column(0)  # Start putting down queens at column 0
-    return solution  # If solutions were found at the end of recursion, they are collected and returned
+    # If solutions were found at the end of recursion, they are collected and returned
+    return solution
+
 
 t = time.time()  # Performance Measurement
 # Change the range to get specific N solutions
@@ -68,7 +71,9 @@ for N in range(1, 13):
     solutions = queen_solver(N)
     print(f'\n{len(solutions)} solutions found for N = {N}')
     # Uncomment the following line to print one random solution for each N
-    if solutions: print(f'One random solution:{solutions[randint(0, len(solutions) - 1)]}')
+    if solutions:
+        print(
+            f'One random solution:{solutions[randint(0, len(solutions) - 1)]}')
     # Uncomment the following line to print all solutions for the range of Ns
     # print(*solutions, sep='\n', end='\n')
 print(f'\nTime taken: {time.time() - t:.3f} seconds')
